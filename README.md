@@ -46,46 +46,51 @@ POST /predict/toi?period_days=3.5&duration_hr=3&depth_pct=1&snr=40
 
 ## 🧩 API Example
 
-**Request:**
+### **Request**
 ```bash
 curl -X 'POST' \
   'http://127.0.0.1:8000/predict/toi?period_days=3.5&duration_hr=3&depth_pct=1&snr=40' \
   -H 'accept: application/json' \
   -d ''
-
-
-Response:
-
+Response
+json
+Copy code
 {
   "model": "toi",
   "prediction": "Likely Planet",
   "probability": 0.981
 }
-
 🛠️ Installation & Setup
 1️⃣ Clone Repository
+bash
+Copy code
 git clone https://github.com/ikhushbokov/Exoseek.git
 cd Exoseek
-
 2️⃣ Create Virtual Environment
+bash
+Copy code
 python3 -m venv .venv
 source .venv/bin/activate   # (Linux/Mac)
 .venv\Scripts\activate      # (Windows)
-
 3️⃣ Install Dependencies
+bash
+Copy code
 pip install -r requirements.txt
-
 4️⃣ Prepare Data
+bash
+Copy code
 python data_prep.py
-
 5️⃣ Train Model
+bash
+Copy code
 python ai_train_models.py
-
 6️⃣ Run API Server
+bash
+Copy code
 uvicorn api:app --reload
-
-
 Then open your browser at 👉 http://127.0.0.1:8000/docs
 
+Here you can test predictions interactively using the Swagger interface.
 
-
+pgsql
+Copy code
