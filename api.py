@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-app = FastAPI(title="Exoplanet Hunter API — TOI only")
+app = FastAPI(title="Exoplanet Hunter API")
 
 HERE = Path(__file__).resolve().parent
 MODELS_DIR = HERE / "models"

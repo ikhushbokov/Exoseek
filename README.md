@@ -1,50 +1,42 @@
+# 🌌 Exoseek – AI-Powered Exoplanet Classifier
 
-# A World Away: Hunting for Exoplanets with AI — MVP Skeleton
+**Exoseek** is an AI system that predicts whether an observed celestial object is a *Likely Exoplanet* or a *False Positive* using NASA’s **TESS (Transiting Exoplanet Survey Satellite)** dataset.  
+It uses a machine learning (Random Forest) model trained on cleaned TOI (TESS Objects of Interest) data and serves predictions through a FastAPI endpoint.
 
-This is a **hackathon-ready** skeleton that:
-- downloads or reads **light curves** (time vs flux),
-- runs a **Box Least Squares (BLS)** search to find periodic dips,
-- extracts **features** (period, depth, duration, SNR, odd-even, secondary),
-- trains a quick **RandomForest** (or XGBoost) on labeled rows,
-- serves results via a tiny **FastAPI** backend for a mobile/web UI.
+---
 
-> ⚠️ This notebook environment has **no internet**, so the `lightkurve` download step is stubbed.
-> Run `python pipeline.py --demo` to use **synthetic curves** and verify end-to-end.
-> On your own machine, remove `--demo` and pass a list of TIC/KIC IDs to fetch real data.
+## 🚀 Features
+- 🪐 Predicts exoplanet probability from orbital and transit data  
+- ⚙️ Machine learning model trained on TESS (TOI) dataset  
+- 🌍 FastAPI backend for real-time predictions  
+- 📈 Clean and modular data processing pipeline  
 
-## Quickstart (local dev)
+---
+
+## 🧠 How It Works
+1. **Data Preparation**  
+   - `data_prep.py` cleans and filters raw NASA datasets.  
+   - Only TESS (TOI) data is used for this version.  
+   - The final cleaned file is `data/clean_toi.csv`.  
+
+2. **Model Training**  
+   - Run `ai_train_models.py` to train a Random Forest Classifier.  
+   - The trained model is saved as `models/rf_toi.pkl`.
+
+3. **API Deployment**  
+   - `api.py` serves the trained model with **FastAPI**.  
+   - Endpoint example:
+     ```
+     POST /predict/toi?period_days=3.5&duration_hr=3&depth_pct=1&snr=40
+     ```
+     → Returns prediction label and probability score.
+
+---
+
+## 🧩 API Example
+
+**Request:**
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-
-# Option A: demo with synthetic curves
-python pipeline.py --demo --n-stars 50
-
-# Option B: real data (requires internet; install lightkurve)
-# python pipeline.py --mission TESS --targets "TIC 123456789,TIC 987654321"
-# uvicorn api:app --reload
-```
-
-## Outputs
-- `artifacts/candidates.json` – ranked candidates with features & scores
-- `artifacts/plots/*` – raw/flattened/folded PNGs for each candidate
-
-## API (FastAPI)
-- `GET /candidates` → list of candidates
-- `GET /candidate/{star_id}` → details + plot URLs
-
-## Data Formats
-
-**Light curve CSV (per star)**:
-```
-time,flux
-0.0000,1.0002
-0.0200,0.9997
-...
-```
-
-Generated **feature table**:
-```
-star_id,period_days,depth_pct,duration_hr,snr,odd_even_depth_diff,secondary_eclipse_snr
-TIC123,4.36,0.8,2.5,12.4,0.05,0.01
-```
+curl -X 'POST' \
+  'http://127.0.0.1:8000/predict/toi?period_days=3.5&duration_hr=3&depth_pct=1&snr=40' \
+  -H 'accept: application/json' -d ''
