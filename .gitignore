@@ -1,0 +1,15 @@
+# python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# data & artifacts
+data/*.csv
+!data/clean_toi.csv
+artifacts/*
+!artifacts/metrics_toi.json
+
+# models
+models/*
+!models/rf_toi.pkl  # keep only TOI model (57MB is allowed; GitHub will just warn)

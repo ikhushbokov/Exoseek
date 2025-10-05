@@ -1,0 +1,10 @@
+
+numpy
+pandas
+matplotlib
+scikit-learn
+astropy
+fastapi
+uvicorn
+# lightkurve  # uncomment locally to fetch Kepler/TESS data
+# xgboost     # optional
